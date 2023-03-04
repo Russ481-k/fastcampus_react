@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+      const useLocalStorage = (itemName, value = "") => {
+        const [state, setState] = React.useState(() => {
+          return window.localStorage.getItem(itemName) || value;
+        }); //랜더링 최적화
+        React.useEffect(() => {
+          window.localStorage.setItem(itemName, state);
+        }, [state]);
+        return [state, setState];
+      };
+      const App = () => {
+        const [keyword, setKeyword] = useLocalStorage("keyword");
+        const [result, setResult] = useLocalStorage("result");
+        const [typing, setTyping] = useLocalStorage("typing", false);
+        console.log("render");
+
+        function handleChange(event) {
+          setKeyword(event.target.value);
+          setTyping(true);
+        }
+        const handleClick = () => {
+          setTyping(false);
+          setResult(`We find result of ${keyword}`);
+        };
+        return (
+          <>
+            <input onChange={handleChange} value={keyword} />
+            <button onClick={handleClick}>search</button>
+            <p>{typing ? `Looking for ... ${keyword}` : result}</p>
+          </>
+        );
+      };
+
+      ReactDOM.render(<App />, rootElement);
+    </script>
+  </body>
+</html>

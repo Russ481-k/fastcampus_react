@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+
+      const Child = () => {
+        const [inputData, setInputData] = React.useState(() => {
+          console.log("   Child useState");
+          return "";
+        });
+
+        React.useEffect(() => {
+          console.log("   Child useEffect no deps");
+        });
+        React.useEffect(() => {
+          console.log("   Child useEffect empty deps");
+        }, []);
+        React.useEffect(() => {
+          console.log("   Child useEffect [inputData]");
+        }, [inputData]);
+
+        console.log("   Child render start");
+        const element = (
+          <span>
+            <input
+              onChange={(e) => {
+                setInputData(e.target.value);
+              }}
+            />
+            <p>{inputData}</p>
+          </span>
+        );
+        console.log("   Child render end");
+        return element;
+      };
+
+      const App = () => {
+        console.log("App render start");
+        const [show, setShow] = React.useState(() => {
+          console.log("App useState");
+          return false;
+        });
+
+        React.useEffect(() => {
+          console.log("App useEffect, no deps");
+        });
+        React.useEffect(() => {
+          console.log("App useEffect, empty deps");
+        }, []);
+        React.useEffect(() => {
+          console.log("App useEffect, [show]");
+        }, [show]);
+
+        console.log("App render end");
+        return (
+          <>
+            <button
+              onClick={() => {
+                setShow(!show);
+              }}
+            >
+              search
+            </button>
+            {show ? <Child /> : null}
+          </>
+        );
+      };
+
+      ReactDOM.render(<App />, rootElement);
+    </script>
+  </body>
+</html>
+
+
+
+<!-- App render start
+App useState
+App render end
+App useEffect, no deps
+App useEffect, empty deps
+App useEffect, [show]
+App render start
+App render end
+   Child useState
+   Child render start
+   Child render end
+App useEffect [Cleanup], no deps
+App useEffect [Cleanup], [show]
+=> Cleanup은 parent가 먼저 실행된다.
+   Child useEffect no deps
+   Child useEffect empty deps
+   Child useEffect [inputData]
+	⇒ Child 컴포넌트의 useEffect까지 모두 동작하고 나서 App의 useEffect 동작한다.
+App useEffect, no deps
+App useEffect, [show] -->
