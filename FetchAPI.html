@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+      const dataAddress =
+        "https://raw.githubusercontent.com/techoi/raw-data-api/main/simple-api.json";
+
+      const App = () => {
+        const [data, setData] = React.useState(null);
+        const [error, setError] = React.useState(null);
+        React.useEffect(() => {
+          fetch(dataAddress)
+            .then((res) => {
+              return res.json();
+            })
+            .then((myJson) => {
+              setData(myJson.data);
+            })
+            .catch((error) => {
+              setError(error.message);
+              console.log(error);
+            });
+        }, []);
+
+        if (error !== null) {
+          return <p>There is Some Error {error}</p>;
+        }
+        if (data === null) {
+          return <p>Now is Loading...</p>;
+        }
+        return (
+          <div>
+            <p>People</p>
+            {data.people.map((person) => (
+              <>
+                <span>name: {person.name}</span>
+                <br />
+                <span>age: {person.age}</span>
+                <br />
+              </>
+            ))}
+          </div>
+        );
+      };
+      ReactDOM.render(<App />, rootElement);
+    </script>
+  </body>
+</html>
