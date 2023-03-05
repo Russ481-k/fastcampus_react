@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+      const todos = [
+        [
+          { id: 1, value: "Wash dishes" },
+          { id: 2, value: "Clean the bed" },
+          { id: 3, value: "Running" },
+          { id: 4, value: "Learning" }
+        ],
+        [
+          { id: 4, value: "Learning" },
+          { id: 1, value: "Wash dishes" },
+          { id: 2, value: "Clean the bed" },
+          { id: 3, value: "Running" }
+        ],
+        [
+          { id: 3, value: "Running" },
+          { id: 4, value: "Learning" },
+          { id: 1, value: "Wash dishes" },
+          { id: 2, value: "Clean the bed" }
+        ],
+        [
+          { id: 2, value: "Clean the bed" },
+          { id: 3, value: "Running" },
+          { id: 4, value: "Learning" },
+          { id: 1, value: "Wash dishes" }
+        ]
+      ];
+
+      const App = () => {
+        const [items, setItems] = React.useState(todos);
+
+        React.useEffect(() => {
+          const interval = setInterval(() => {
+            const random = Math.floor(Math.random() * 3);
+            setItems(todos[random]);
+          }, 1000);
+          return () => {
+            claerInterval(interval);
+          };
+        }, []);
+
+        const handleDoneClick = (todo) => {
+          setItems((items) => items.filter((item) => item !== todo));
+        };
+        const handleRestoreClick = () => {
+          setItems((items) => [
+            ...items,
+            todos.find((item) => !items.includes(item))
+            //.find() => 해당 배열에서 가장 작은 인덱스 중 조건에 맞는 것을 특정
+            //.includes() => 배열이 해당 요소를 포함하고 있는지를 표시
+            //즉 해당 배열에서 해당요소를 포함하고 있지 않은 최소인덱스를 특정.
+          ]);
+        };
+        return (
+          <>
+            <button onClick={handleRestoreClick}>Restore</button>
+            <br />
+            <br />
+            <br />
+            {items.map((todo) => (
+              <div key={todo.id}>
+                {/*todo.id, todo.value, index*/}
+                {/*키 값이 중요한 이유*/}
+                {/*value를 특정할 수 있는 유일한 값이여야 한다*/}
+                {/*key가 없었을 때에는 값만 바꿔치기 하지만 key 값이 있을 경우 컴포넌트가 특정된다.*/}
+                <button onClick={() => handleDoneClick(todo)}>
+                  {todo.value}
+                </button>
+              </div>
+            ))}
+          </>
+        );
+      };
+      ReactDOM.render(<App />, rootElement);
+    </script>
+  </body>
+</html>
