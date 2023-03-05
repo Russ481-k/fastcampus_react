@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+      const ID = ({ setId }) => {
+        const handleIDChange = (e) => {
+          setId(e.target.value);
+        };
+        return (
+          <>
+            <label>ID: </label>
+            <input type="text" onChange={handleIDChange}></input>
+          </>
+        );
+      };
+      const Password = ({ setPassword }) => {
+        const handlePWChange = (e) => {
+          setPassword(e.target.value);
+        };
+        return (
+          <>
+            <label>PW: </label>
+            <input type="password" onChange={handlePWChange}></input>
+          </>
+        );
+      };
+      const App = () => {
+        const [id, setId] = React.useState("");
+        const [password, setPassword] = React.useState("");
+        const [formet, setFormet] = React.useState(false);
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          alert(`ID: ${id} PW: ${password}`);
+        };
+
+        React.useEffect(() => {
+          setFormet(id.length > 0 && password.length > 0);
+        }, [id, password]);
+
+        return (
+          <>
+            <form onSubmit={handleSubmit}>
+              <ID setId={setId} />
+              <br />
+              <Password setPassword={setPassword} />
+              <br />
+              <button type="submit" disabled={!formet}>
+                LogIn
+              </button>
+            </form>
+          </>
+        );
+      };
+      ReactDOM.render(<App />, rootElement);
+    </script>
+  </body>
+</html>
