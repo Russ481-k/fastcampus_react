@@ -8,6 +8,7 @@ import Memo from './Page/Memoization/Memo';
 import Example from './Page/Portal/Example';
 import Dialog from './Page/Portal/Dialog';
 import ThankyouDialog from './Page/Portal/ThankyouDialog';
+import Component from './Page/PropTypes/Component';
 // import Reducer from './Page/Reducer';
 
 function App() {
@@ -16,8 +17,9 @@ function App() {
     <div className="App">
       {/* <Reducer/> */}
         {/* <Memo /> */}
-      <Example />
+      {/* <Example /> */}
       {/* <ThankyouDialog /> */}
+      <Component/>
     </div>
   );
 }
