@@ -9,6 +9,9 @@ import Example from './Page/Portal/Example';
 import Dialog from './Page/Portal/Dialog';
 import ThankyouDialog from './Page/Portal/ThankyouDialog';
 import Component from './Page/PropTypes/Component';
+import MomentExample from './Components/MomentExample';
+import DayjsExample from './Components/DayjsExample';
+import DateFNS from './Components/DateFNSExample';
 // import Reducer from './Page/Reducer';
 
 function App() {
@@ -16,10 +19,13 @@ function App() {
   return (
     <div className="App">
       {/* <Reducer/> */}
-        {/* <Memo /> */}
+      {/* <Memo /> */}
       {/* <Example /> */}
       {/* <ThankyouDialog /> */}
-      <Component/>
+      {/* <Component/> */}
+      <MomentExample/>
+      <DayjsExample/>
+      <DateFNS/>
     </div>
   );
 }
