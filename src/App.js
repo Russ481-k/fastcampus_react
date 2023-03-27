@@ -1,7 +1,7 @@
-
-import { useReducer } from 'react';
-import './App.css';
-import SassExample from './Components/Sass/SassExample';
+import { useReducer } from "react";
+import "./App.css";
+import Counter2 from "./Components/Counter2";
+// import SassExample from "./Components/Sass/SassExample";
 // import { Context } from './Page/Context/ThemedButton';
 // import Button from './Page/HOC/Button';
 // import Input from './Page/HOC/Input';
@@ -15,9 +15,9 @@ import SassExample from './Components/Sass/SassExample';
 // import DateFNSExample from './Components/DateFNSExample';
 // import StyledComponentsExample from './Components/StyledComponentsExample';
 // import Reducer from './Page/Reducer';
-import TestMocking from './Components/TestMocking';
+import TestMocking from "./Components/TestMocking";
+import Counter from "./features/counter/Counter";
 function App() {
-
   return (
     <div className="App">
       {/* <Reducer/> */}
@@ -31,6 +31,10 @@ function App() {
       {/* <StyledComponentsExample/> */}
       {/* <SassExample/> */}
       <TestMocking />
+      <Counter />
+      <br/>
+      <Counter2 />
+
     </div>
   );
 }

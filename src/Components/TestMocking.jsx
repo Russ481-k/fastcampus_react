@@ -7,7 +7,7 @@ const Item = ({ name, age }) => {
     </li>
   );
 };
-const url = "https://raw.githubusercontent.com/techoi/raw-data-api/main/simple-api.json"
+const url = "https://raw.githubusercontent.com/techoi/raw-data-api/main/simple-api.json?id=react"
 export default function TestMocking() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -17,6 +17,9 @@ export default function TestMocking() {
       return res.json();
     })
       .then((json) => {
+        if(json.errorMessage){
+          throw new Error(json.errorMessage)
+        }
         setData(json.data);
       })
       .catch((error) => {
