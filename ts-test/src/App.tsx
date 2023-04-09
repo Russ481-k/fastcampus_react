@@ -1,31 +1,23 @@
-//https://jsonplaceholder.typicode.com/todos
-import { useState, useEffect } from "react";
-
-interface Todo {
-  id: string;
-  title: string;
-  userId: number;
-  completed: boolean;
+import React, {useState}from 'react'
+import {useForm} from 'react-hook-form'
+interface Form {
+age:number;
 }
-const App = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
-
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/todos")
-      .then((res) => res.json())
-      .then((data) => setTodos(data))
-      .catch((err) => console.error(err));
-    console.log(todos);
-  }, []);
+function App(){
+  const {register, handleSubmit, formState:{errors}} = useForm()
+  const [result, setResult] = useState('')  
+  const onSubmit = (data: any) => {
+    setResult(JSON.stringify(data))
+  }
   return (
-    <div className="App_1">
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.title}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input type="number" placeholder="Age" {...register('age',{required:true, min: 17, max: 40})} />
+      {errors.age?.type === 'required' && (<p>Age is required</p>)}
+      {errors.age?.type === 'min' && (<p>Minimum age is 17</p>)}
+      {errors.age?.type === 'max' && (<p>Maximum age is 40</p>)}
+      <input type="submit" />
+      <p>{result}</p>
+    </form>
+  )
+}
 export default App;
